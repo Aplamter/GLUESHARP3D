@@ -4,9 +4,9 @@ Glue3D converted from Scratch (`Glue3D.sb3`) into a native C# desktop app. It us
 [raylib](https://www.raylib.com) through [Raylib-cs](https://github.com/ChrisDill/Raylib-cs)
 for graphics, input and sound. It doesn't need a browser or Scratch.
 
-## Run it
+## Build it Then Run it
 
-The prebuilt Windows version is `Glue3D.exe` and needs nothing else installed. Keep the
+If You Build The .exe The Build Windows version is `Glue3D.exe` and needs nothing else installed. Keep the
 `assets` folder next to the exe.
 
 - **F11** (or **Alt+Enter**) toggles fullscreen. The window can also be resized.
