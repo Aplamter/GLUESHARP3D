@@ -4,36 +4,17 @@ Glue3D converted from Scratch (`Glue3D.sb3`) into a native C# desktop app. It us
 [raylib](https://www.raylib.com) through [Raylib-cs](https://github.com/ChrisDill/Raylib-cs)
 for graphics, input and sound. It doesn't need a browser or Scratch.
 
-## Build it Then Run it
-
-If You Build The .exe The Build Windows version is `Glue3D.exe` and needs nothing else installed. Keep the
-`assets` folder next to the exe.
-
-- **F11** (or **Alt+Enter**) toggles fullscreen. The window can also be resized.
-- **3D view camera (Unity-style):**
-  - Hold the **right mouse button** and drag to look around. The cursor hides and comes back where it was.
-    You can look straight up and down (±90°, the original stopped at 45°).
-  - **Mouse wheel** moves forward/back along the view, and **middle-button drag** slides the camera.
-  - W/A/S/D move as before. While the right button is held, W/S also follow the view up/down, and **Q/E** move down/up.
-  - Settings (sensitivity, invert-Y, pitch limit, zoom and pan speed) are at the top of `Custom/CameraControls.cs`.
-- **Scene toolbar** (top-left of the 3D view): **Select**, **Move**, **Rotate**, **Scale**, and **Show gizmo**.
-  - Move/Rotate/Scale: click an object to select it, then drag its gizmo. Move has an arrow per axis, plus a
-    center square that slides the object on the ground. Rotate has a ring per axis (green ring = yaw).
-    Scale has a handle per axis, plus a center square for uniform scale.
-  - Hold **Ctrl** while dragging to snap (0.25 units, 15°, 0.1 scale). A readout shows the values.
-  - With the gizmo turned off, drag the object itself: Move slides it, Rotate turns it, Scale resizes it.
-  - **Select** works like the original Glue3D: clicking an object opens its menu (delete, copy, assign camera…).
-  - The toolbar hides while a dialog or menu is open, while a Glue3D scene tool is active, and while the game runs.
-
-## Build it yourself
+## How to use
 
 Install the [.NET 8 SDK](https://dotnet.microsoft.com/download), then:
 
+Open powershell and cd into the GLUESHARP3D folder
+Afterwards run these commands : 
 ```bash
-dotnet run -c Release                                   # build and run
-dotnet publish -c Release -r win-x64 -o publish-win     # single self-contained Glue3D.exe
-dotnet publish -c Release -r linux-x64 -o publish-linux # also works on Linux/macOS (osx-arm64)
+    -dotnet build
+    -dotnet run
 ```
+And the project should open
 
 ## Where things are
 
