@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>Glue3D</AssemblyName>
+    <RootNamespace>Glue3D</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TieredPGO>true</TieredPGO>
+    <ApplicationIcon Condition="Exists('app.ico')">app.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>Glue3D</Product>
+    <Description>Glue3D, converted from Scratch to C# with raylib</Description>
+  </PropertyGroup>
+
+  <!-- dotnet publish -c Release -r win-x64  =>  one self-contained Glue3D.exe plus the assets folder -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Raylib-cs" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The game player is its own project (Player/Glue3DPlayer.csproj). -->
+    <Compile Remove="Player/**" />
+    <None Remove="Player/**" />
+  </ItemGroup>
+
+  <!-- Every build of the editor also builds the game player into its "player" folder,
+       which File > build.. copies as the game's .exe. -->
+  <PropertyGroup>
+    <PlayerRid Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</PlayerRid>
+    <PlayerRid Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</PlayerRid>
+    <PlayerExe Condition="$(PlayerRid.StartsWith('win'))">Glue3DPlayer.exe</PlayerExe>
+    <PlayerExe Condition="!$(PlayerRid.StartsWith('win'))">Glue3DPlayer</PlayerExe>
+  </PropertyGroup>
+  <Target Name="BuildGamePlayer" AfterTargets="Build"
+          Inputs="@(Compile);Player/PlayerProgram.cs;Player/PlayerStubs.cs;Player/Glue3DPlayer.csproj"
+          Outputs="$(OutDir)player/$(PlayerExe)">
+    <Message Importance="high" Text="Building the game player ($(PlayerRid))..." />
+    <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)/Player/Glue3DPlayer.csproj&quot; -c $(Configuration) -r $(PlayerRid) -o &quot;$(OutDir)player&quot; --nologo -v q" />
+  </Target>
+  <Target Name="PublishGamePlayer" AfterTargets="Publish">
+    <ItemGroup>
+      <PlayerFiles Include="$(OutDir)player/**" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PlayerFiles)" DestinationFolder="$(PublishDir)player/%(RecursiveDir)" />
+  </Target>
+
+  <ItemGroup>
+    <!-- Costumes, sounds and starting data are copied next to the executable. -->
+    <None Include="assets\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
+</Project>

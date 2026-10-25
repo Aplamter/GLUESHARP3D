@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The game player that File > build.. copies as <project>.exe.
+       Same runtime and Glue3D code as the editor, compiled with GLUE3D_PLAYER so the editor is left out. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>Glue3DPlayer</AssemblyName>
+    <RootNamespace>Glue3D</RootNamespace>
+    <DefineConstants>$(DefineConstants);GLUE3D_PLAYER</DefineConstants>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TieredPGO>true</TieredPGO>
+    <ApplicationIcon>../app.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>Glue3D game</Product>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>full</TrimMode>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Raylib-cs" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <Compile Include="../Runtime/**/*.cs" />
+    <Compile Include="../Generated/**/*.cs" />
+    <Compile Include="../Custom/BuildFlavor.cs" />
+    <Compile Include="../Custom/CameraControls.cs" />
+    <Compile Include="../Custom/ProjectFiles.cs" />
+    <Compile Include="../Custom/PlayerSettings.cs" />
+  </ItemGroup>
+
+</Project>

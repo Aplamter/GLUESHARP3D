@@ -1,0 +1,5 @@
+bin/
+obj/
+publish*/
+tools/node_modules/
+Projects/
